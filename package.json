@@ -1,0 +1,28 @@
+{
+  "name": "figma-to-code-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for converting Figma designs to React code using Glide Design Library",
+  "main": "index.mjs",
+  "type": "module",
+  "scripts": {
+    "start": "node index.mjs",
+    "dev": "node --watch index.mjs"
+  },
+  "keywords": [
+    "mcp",
+    "figma",
+    "react",
+    "design-to-code",
+    "glide",
+    "vscode"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "zod": "^3.22.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
