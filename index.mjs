@@ -8,8 +8,7 @@ import {
   ListToolsRequestSchema,
   CallToolRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { z } from "zod";
-import fs from "fs";
+import { promises as fs } from "fs";
 
 const server = new Server(
   {
@@ -74,7 +73,7 @@ server.setRequestHandler(ListPromptsRequestSchema, async () => {
 server.setRequestHandler(GetPromptRequestSchema, async (request) => {
   const promptName = request.params.name;
   if (promptName === "best-practices-instructions") {
-    const content = fs.readFileSync("./docs/instructions.md", {
+    const content = await fs.readFile("./docs/instructions.md", {
       encoding: "utf-8",
     });
     return {
@@ -103,7 +102,7 @@ server.setRequestHandler(ListResourcesRequestSchema, async () => {
 server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
   const uri = request.params.uri;
   if (uri === "glide-design-library-docs") {
-    const content = fs.readFileSync("./docs/glide-documentation.md", {
+    const content = await fs.readFile("./docs/glide-documentation.md", {
       encoding: "utf-8",
     });
     return {
@@ -132,11 +131,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   if (toolName === "fetch-figma-design") {
     try {
       const figmaUrl = request.params.arguments?.figmaUrl;
-      console.error(`Fetching Figma design from: ${figmaUrl}`);
+      console.log(`Fetching Figma design from: ${figmaUrl}`);
       
-      const figmaDesignJson = JSON.parse(
-        fs.readFileSync("./design.json", { encoding: "utf-8" })
-      );
+      // Note: This is a demo implementation that reads from a local file.
+      // In a production environment, you would use the Figma API with the provided URL.
+      const designContent = await fs.readFile("./design.json", {
+        encoding: "utf-8",
+      });
+      const figmaDesignJson = JSON.parse(designContent);
 
       return {
         content: [
